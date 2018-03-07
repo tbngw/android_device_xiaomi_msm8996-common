@@ -39,10 +39,17 @@ public class ButtonSettingsFragment extends PreferenceFragment
         implements OnPreferenceChangeListener {
 
     private Preference mKcalPref;
+    private VibratorStrengthPreference mVibratorStrength;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         addPreferencesFromResource(R.xml.button_panel);
+
+        mVibratorStrength = (VibratorStrengthPreference) findPreference("vibrator_key");
+        if (mVibratorStrength != null) {
+            mVibratorStrength.setEnabled(VibratorStrengthPreference.isSupported());
+        }
+
         mKcalPref = findPreference("kcal");
         mKcalPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
              @Override
@@ -132,6 +139,15 @@ public class ButtonSettingsFragment extends PreferenceFragment
                         Constants.sNodeDependencyMap.get(pref)[1]);
                 Utils.updateDependentPreference(getContext(), b, pref, shouldSetEnabled);
             }
+        }
+    }
+
+    @Override
+    public void onDisplayPreferenceDialog(Preference preference) {
+        if (preference instanceof VibratorStrengthPreference){
+           ((VibratorStrengthPreference)preference).onDisplayPreferenceDialog(preference);
+        } else {
+            super.onDisplayPreferenceDialog(preference);
         }
     }
 }
