@@ -14,6 +14,36 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+# Optimization
+USE_O3_OPTIMIZATIONS := true
+FLOOP_NEST_OPTIMIZE := true
+TARGET_USE_PIPE := true
+FFAST_MATH := true
+ENABLE_SCHEDBOOST := true
+ENABLE_CPUSETS := true
+CLANG_O3 := true
+STRICT_ALIASING := true
+KRAIT_TUNINGS := true
+GRAPHITE_OPTS := true
+ENABLE_GCCONLY := true
+GCC_OPTIMIZATION_LEVELS:= -O3s 
+WITH_DEXPREOPT := true
+
+# Snapdragon LLVM (Boardconfig.mk) - Snapdragon LLVM Compiler for Android v4.0 - Linux64
+ifneq ($(HOST_OS),darwin)
+SDCLANG := true
+SDCLANG_PATH := prebuilts/snapdragon-llvm/toolchains/llvm-Snapdragon_LLVM_for_Android_4.0/prebuilt/linux-x86_64/bin
+SDCLANG_LTO_DEFS := device/qcom/common/sdllvm-lto-defs.mk
+endif
+
+# Enable dexpreopt to speed boot time
+ifeq ($(HOST_OS),linux)
+  ifeq ($(call match-word-in-list,$(TARGET_BUILD_VARIANT),user),true)
+    ifeq ($(WITH_DEXPREOPT),)
+      WITH_DEXPREOPT := true
+    endif
+  endif
+endif
 
 BOARD_VENDOR := xiaomi
 
@@ -51,6 +81,7 @@ TARGET_KERNEL_ARCH := arm64
 TARGET_KERNEL_HEADER_ARCH := arm64
 TARGET_KERNEL_SOURCE := kernel/xiaomi/msm8996
 TARGET_KERNEL_CROSS_COMPILE_PREFIX := aarch64-linux-android-
+KERNEL_TOOLCHAIN := /home/andro/GCC/aarch64-linux-android-8.x-kernel/bin
 
 # Platform
 TARGET_BOARD_PLATFORM := msm8996

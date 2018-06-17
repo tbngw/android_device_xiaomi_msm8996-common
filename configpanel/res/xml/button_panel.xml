@@ -79,5 +79,18 @@
             android:title="@string/kcal_title" />
 
     </PreferenceCategory>
+	
+	<PreferenceCategory
+
+        android:title="@string/qc3_category">
+		
+	<ListPreference
+        android:key="hvdcp3"
+        android:title="@string/qc3_title"
+        android:entries="@array/qc3_entries"
+        android:entryValues="@array/qc3_values"
+        android:summary="%s" />
+
+    </PreferenceCategory>
 
 </PreferenceScreen>
