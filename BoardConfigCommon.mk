@@ -192,6 +192,11 @@ include device/qcom/sepolicy-legacy-um/sepolicy.mk
 
 BOARD_SEPOLICY_DIRS += $(VENDOR_PATH)/sepolicy
 
+# GPS
+USE_DEVICE_SPECIFIC_GPS := true
+BOARD_VENDOR_QCOM_GPS_LOC_API_HARDWARE := default
+LOC_HIDL_VERSION := 3.0
+
 # Vendor init
 TARGET_INIT_VENDOR_LIB := //$(VENDOR_PATH):libinit.xiaomi_8996
 TARGET_RECOVERY_DEVICE_MODULES := libinit.xiaomi_8996
