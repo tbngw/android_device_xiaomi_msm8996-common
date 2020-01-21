@@ -375,6 +375,12 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     android.hardware.usb@1.0-service.basic
 
+# Thermal
+PRODUCT_PACKAGES += \
+    android.hardware.thermal@2.0-impl \
+    android.hardware.thermal@2.0-service \
+    thermal.msm8996
+
 # VNDK
 PRODUCT_PACKAGES += \
     vndk-sp
