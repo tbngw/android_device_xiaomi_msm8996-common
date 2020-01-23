@@ -183,6 +183,10 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     XiaomiDoze
 
+# CarrierConfig
+PRODUCT_PACKAGES += \
+    CarrierConfig
+
 # DRM
 PRODUCT_PACKAGES += \
     android.hardware.drm@1.0-impl \
