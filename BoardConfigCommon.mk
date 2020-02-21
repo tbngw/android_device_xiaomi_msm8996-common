@@ -14,6 +14,36 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+# Optimization
+USE_O3_OPTIMIZATIONS := true
+FLOOP_NEST_OPTIMIZE := true
+TARGET_USE_PIPE := true
+FFAST_MATH := true
+ENABLE_SCHEDBOOST := true
+ENABLE_CPUSETS := true
+CLANG_O3 := true
+STRICT_ALIASING := true
+KRAIT_TUNINGS := true
+GRAPHITE_OPTS := true
+ENABLE_GCCONLY := true
+GCC_OPTIMIZATION_LEVELS:= -O3s 
+WITH_DEXPREOPT := true
+
+# Snapdragon LLVM (Boardconfig.mk) - Snapdragon LLVM Compiler for Android v3.8.8 - Linux64
+ifneq ($(HOST_OS),darwin)
+SDCLANG := true
+SDCLANG_PATH := vendor/qcom/sdclang-8.0/linux-x86/bin/
+SDCLANG_LTO_DEFS := vendor/aosp/sdclang/sdllvm-lto-defs.mk
+endif
+
+# Enable dexpreopt to speed boot time
+ifeq ($(HOST_OS),linux)
+  ifeq ($(call match-word-in-list,$(TARGET_BUILD_VARIANT),user),true)
+    ifeq ($(WITH_DEXPREOPT),)
+      WITH_DEXPREOPT := true
+    endif
+  endif
+endif
 
 BOARD_VENDOR := xiaomi
 
@@ -46,6 +76,7 @@ TARGET_NO_BOOTLOADER := true
 BOARD_KERNEL_BASE := 0x80000000
 BOARD_KERNEL_CMDLINE := androidboot.hardware=qcom ehci-hcd.park=3 lpm_levels.sleep_disabled=1 cma=32M@0-0xffffffff
 BOARD_KERNEL_CMDLINE += loop.max_part=7
+BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
 BOARD_KERNEL_IMAGE_NAME := Image.gz-dtb
 BOARD_KERNEL_PAGESIZE := 4096
 BOARD_KERNEL_TAGS_OFFSET := 0x00000100
@@ -53,6 +84,7 @@ BOARD_RAMDISK_OFFSET := 0x01000000
 TARGET_KERNEL_ARCH := arm64
 TARGET_KERNEL_SOURCE := kernel/xiaomi/msm8996
 TARGET_KERNEL_CLANG_COMPILE := true
+TARGET_KERNEL_CLANG_VERSION := $(shell sh -c "find prebuilts/clang/host/linux-x86/ -type f -name clang -printf \"%T@ %Tc %p\n\" | sort -n | tail -n1 | sed 's/.*clang-\(.*\)\/bin.*/\1/'")
 
 # Platform
 TARGET_BOARD_PLATFORM := msm8996
